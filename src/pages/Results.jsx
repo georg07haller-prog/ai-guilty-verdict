@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import CourtHeader from '../components/courtroom/CourtHeader';
 import VerdictDisplay from '../components/verdict/VerdictDisplay';
+import DownloadVerdictPDF from '../components/verdict/DownloadVerdictPDF';
 
 export default function Results() {
   const navigate = useNavigate();
@@ -116,6 +117,9 @@ export default function Results() {
             <Share2 className="w-4 h-4 mr-2" />
             Share Verdict
           </Button>
+        </div>
+        <div className="mt-3">
+          <DownloadVerdictPDF verdictData={verdictData} inputData={inputData} />
         </div>
 
         <div className="text-center mt-10">
