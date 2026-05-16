@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { RotateCcw, Share2, Download, ArrowRight } from 'lucide-react';
+import { RotateCcw, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import CourtHeader from '../components/courtroom/CourtHeader';
 import VerdictDisplay from '../components/verdict/VerdictDisplay';
 import DownloadVerdictPDF from '../components/verdict/DownloadVerdictPDF';
+import ShareVerdictPanel from '../components/verdict/ShareVerdictPanel';
 
 export default function Results() {
   const navigate = useNavigate();
@@ -38,18 +39,6 @@ export default function Results() {
       </div>
     );
   }
-
-  const handleShare = () => {
-    const pct = verdictData.probability?.percent || 0;
-    const job = inputData?.job_title || 'my job';
-    const text = `⚖️🤖 THE ROBOT JUDGE HAS SPOKEN\n\nJob: ${job}\nObsolescence Risk: ${pct}%\n\n"${verdictData.verdict_paragraph?.slice(0, 120)}..."\n\nGet YOUR verdict → AI Guilty Verdict`;
-    if (navigator.share) {
-      navigator.share({ title: 'AI Guilty Verdict', text });
-    } else {
-      navigator.clipboard.writeText(text);
-      toast({ title: 'Copied to clipboard!', description: 'Paste it anywhere to share your verdict.' });
-    }
-  };
 
   const pct = verdictData.probability?.percent || 0;
   const riskColor = pct >= 75 ? 'text-red-400' : pct >= 45 ? 'text-yellow-400' : 'text-green-400';
@@ -110,16 +99,10 @@ export default function Results() {
             <RotateCcw className="w-4 h-4 mr-2" />
             Try Another Role
           </Button>
-          <Button
-            onClick={handleShare}
-            className="flex-1 bg-secondary text-foreground hover:bg-secondary/80 border border-border"
-          >
-            <Share2 className="w-4 h-4 mr-2" />
-            Share Verdict
-          </Button>
+          <DownloadVerdictPDF verdictData={verdictData} inputData={inputData} />
         </div>
         <div className="mt-3">
-          <DownloadVerdictPDF verdictData={verdictData} inputData={inputData} />
+          <ShareVerdictPanel verdictData={verdictData} inputData={inputData} />
         </div>
 
         <div className="text-center mt-10">
