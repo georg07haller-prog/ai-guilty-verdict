@@ -494,6 +494,9 @@ export default function Landing() {
             <Scale className="w-4 h-4 text-primary" />
             <span>AI Guilty Verdict · Built in Europe · 2026</span>
           </div>
+          <a href="https://madprofessorlab.ideamart.eu/" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors flex items-center gap-1.5">
+            🧪 MadProfessor Laboratory
+          </a>
           <div className="flex gap-4 flex-wrap justify-center">
             <Link to="/About" className="hover:text-foreground transition-colors">About</Link>
             <Link to="/Contact" className="hover:text-foreground transition-colors">Contact</Link>
