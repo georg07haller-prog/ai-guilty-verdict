@@ -21,7 +21,7 @@ export default function Contact() {
     // Simple mailto fallback
     const subject = encodeURIComponent(`Message from ${form.name}`);
     const body = encodeURIComponent(`Name: ${form.name}\nEmail: ${form.email}\n\n${form.message}`);
-    window.location.href = `mailto:hello@aiguiltyverdict.com?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:info@ideamart.eu?subject=${subject}&body=${body}`;
     setSent(true);
   };
 
@@ -47,7 +47,7 @@ export default function Contact() {
         {/* Contact methods */}
         <motion.div {...fadeUp(0.1)} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <a
-            href="mailto:hello@aiguiltyverdict.com"
+            href="mailto:info@ideamart.eu"
             className="flex items-center gap-4 border border-border rounded-2xl p-5 bg-card hover:border-primary/40 transition-all group"
           >
             <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors">
@@ -55,12 +55,12 @@ export default function Contact() {
             </div>
             <div>
               <p className="text-sm font-semibold text-foreground">Email Us</p>
-              <p className="text-xs text-muted-foreground">hello@aiguiltyverdict.com</p>
+              <p className="text-xs text-muted-foreground">info@ideamart.eu</p>
             </div>
           </a>
 
           <a
-            href="https://twitter.com/aiguiltyverdict"
+            href="https://twitter.com/urigGH"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-4 border border-border rounded-2xl p-5 bg-card hover:border-primary/40 transition-all group"
@@ -70,7 +70,7 @@ export default function Contact() {
             </div>
             <div>
               <p className="text-sm font-semibold text-foreground">Twitter / X</p>
-              <p className="text-xs text-muted-foreground">@aiguiltyverdict</p>
+              <p className="text-xs text-muted-foreground">@urigGH</p>
             </div>
           </a>
         </motion.div>
