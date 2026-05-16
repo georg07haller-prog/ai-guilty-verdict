@@ -48,6 +48,7 @@ module.exports = {
   			border: 'hsl(var(--border))',
   			input: 'hsl(var(--input))',
   			ring: 'hsl(var(--ring))',
+  			neon: 'hsl(180 100% 50%)',
   			chart: {
   				'1': 'hsl(var(--chart-1))',
   				'2': 'hsl(var(--chart-2))',
@@ -75,27 +76,30 @@ module.exports = {
   				from: { height: 'var(--radix-accordion-content-height)' },
   				to: { height: '0' }
   			},
-  			'gavel-slam': {
-  				'0%': { transform: 'rotate(-30deg) translateY(-20px)' },
-  				'60%': { transform: 'rotate(5deg) translateY(0)' },
-  				'80%': { transform: 'rotate(-2deg) translateY(0)' },
-  				'100%': { transform: 'rotate(0deg) translateY(0)' }
+  			'float': {
+  				'0%, 100%': { transform: 'translateY(0px)' },
+  				'50%': { transform: 'translateY(-8px)' }
   			},
   			'pulse-glow': {
-  				'0%, 100%': { boxShadow: '0 0 20px hsl(45 80% 55% / 0.2)' },
-  				'50%': { boxShadow: '0 0 40px hsl(45 80% 55% / 0.4)' }
+  				'0%, 100%': { boxShadow: '0 0 20px hsl(210 100% 56% / 0.2)' },
+  				'50%': { boxShadow: '0 0 50px hsl(210 100% 56% / 0.5), 0 0 80px hsl(210 100% 56% / 0.2)' }
   			},
-  			'scan-line': {
+  			'scan': {
   				'0%': { transform: 'translateY(-100%)' },
-  				'100%': { transform: 'translateY(100%)' }
+  				'100%': { transform: 'translateY(300%)' }
+  			},
+  			'ticker': {
+  				'0%': { transform: 'translateX(0)' },
+  				'100%': { transform: 'translateX(-50%)' }
   			}
   		},
   		animation: {
   			'accordion-down': 'accordion-down 0.2s ease-out',
   			'accordion-up': 'accordion-up 0.2s ease-out',
-  			'gavel-slam': 'gavel-slam 0.6s ease-out',
-  			'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
-  			'scan-line': 'scan-line 3s linear infinite'
+  			'float': 'float 4s ease-in-out infinite',
+  			'pulse-glow': 'pulse-glow 2.5s ease-in-out infinite',
+  			'scan': 'scan 2s linear infinite',
+  			'ticker': 'ticker 20s linear infinite'
   		}
   	}
   },

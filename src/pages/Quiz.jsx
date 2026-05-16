@@ -19,6 +19,7 @@ export default function Quiz() {
 
   const [jobTitle, setJobTitle] = useState('');
   const [industry, setIndustry] = useState('');
+  const [ageRange, setAgeRange] = useState('');
   const [tasks, setTasks] = useState(['', '', '']);
   const [memeAnswers, setMemeAnswers] = useState({});
 
@@ -41,6 +42,7 @@ export default function Quiz() {
     const inputData = {
       job_title: jobTitle,
       industry,
+      age_range: ageRange,
       daily_tasks: tasks.filter(t => t.trim()),
       meme_answers: memeAnswers,
     };
@@ -50,6 +52,7 @@ export default function Quiz() {
 Analyze this person's job and deliver your verdict:
 - Job Title: ${inputData.job_title}
 - Industry: ${inputData.industry}
+- Age Range: ${inputData.age_range || 'not specified'}
 - 3 Most Frequent Daily Tasks: ${inputData.daily_tasks.join(', ')}
 - Meme Quiz Answers: ${JSON.stringify(inputData.meme_answers)}
 
@@ -142,22 +145,38 @@ Include 4 survival options. Make the analysis accurate to their real activities 
       <CourtHeader />
 
       {isGenerating ? (
-        <div className="flex flex-col items-center justify-center py-32 px-4 space-y-6">
-          <Loader2 className="w-12 h-12 text-primary animate-spin" />
-          <div className="text-center space-y-2">
-            <h2 className="font-display text-2xl font-bold text-foreground">
-              The Robot Judge is reviewing your case...
-            </h2>
-            <p className="font-mono text-sm text-muted-foreground">
-              Analyzing evidence • Computing obsolescence • Drafting verdict
-            </p>
+        <div className="flex flex-col items-center justify-center py-32 px-4 space-y-8">
+          <div className="relative">
+            <div className="w-20 h-20 rounded-full border-2 border-primary/20 flex items-center justify-center">
+              <Loader2 className="w-10 h-10 text-primary animate-spin" />
+            </div>
+            <div className="absolute inset-0 rounded-full bg-primary/10 blur-xl animate-pulse" />
           </div>
-          <div className="w-64 h-1 bg-secondary rounded-full overflow-hidden">
+          <div className="text-center space-y-3">
+            <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground">
+              The Robot Judge is deliberating...
+            </h2>
+            <div className="space-y-1 font-mono text-sm text-muted-foreground">
+              {['Scanning your daily activities...', 'Cross-referencing with 2026 AI capability matrix...', 'Drafting your personalised verdict...'].map((msg, i) => (
+                <motion.p
+                  key={i}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: i * 0.8 }}
+                  className="flex items-center justify-center gap-2"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                  {msg}
+                </motion.p>
+              ))}
+            </div>
+          </div>
+          <div className="w-56 h-1 bg-secondary rounded-full overflow-hidden">
             <motion.div
               className="h-full bg-primary rounded-full"
-              animate={{ x: ['-100%', '100%'] }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-              style={{ width: '50%' }}
+              animate={{ x: ['-100%', '200%'] }}
+              transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+              style={{ width: '40%' }}
             />
           </div>
         </div>
@@ -210,6 +229,25 @@ Include 4 survival options. Make the analysis accurate to their real activities 
                       onChange={(e) => setIndustry(e.target.value)}
                       className="bg-secondary/30 border-border text-foreground font-body"
                     />
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="font-mono text-xs uppercase tracking-wider text-muted-foreground">Age Range</Label>
+                    <div className="grid grid-cols-4 gap-2">
+                      {['18–25', '26–35', '36–45', '46+'].map(r => (
+                        <button
+                          key={r}
+                          type="button"
+                          onClick={() => setAgeRange(r)}
+                          className={`py-2.5 rounded-lg border text-sm font-mono transition-all ${
+                            ageRange === r
+                              ? 'border-primary bg-primary/10 text-primary'
+                              : 'border-border bg-secondary/30 text-muted-foreground hover:border-primary/40'
+                          }`}
+                        >
+                          {r}
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </motion.div>
