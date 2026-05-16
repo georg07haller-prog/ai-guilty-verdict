@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import { usePullToRefresh } from '@/hooks/usePullToRefresh';
 import PullToRefreshIndicator from '@/components/layout/PullToRefreshIndicator';
 import { Link } from 'react-router-dom';
+import { base44 } from '@/api/base44Client';
 import { motion } from 'framer-motion';
 import {
   Scale, Zap, Shield, Brain, ChevronRight, Lock, Star,
@@ -18,6 +19,22 @@ const fadeUp = (delay = 0) => ({
 });
 
 export default function Landing() {
+  const [checkoutLoading, setCheckoutLoading] = useCallback(false);
+
+  const handlePremiumClick = useCallback(async (priceId) => {
+    setCheckoutLoading(true);
+    try {
+      const response = await base44.functions.invoke('createCheckout', { priceId });
+      if (response.data.sessionUrl) {
+        window.location.href = response.data.sessionUrl;
+      }
+    } catch (error) {
+      console.error('Checkout error:', error);
+    } finally {
+      setCheckoutLoading(false);
+    }
+  }, []);
+
   const handleRefresh = useCallback(async () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
@@ -459,12 +476,22 @@ export default function Landing() {
                   </li>
                 ))}
               </ul>
-              <Link to="/Quiz">
-                <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold">
-                  <Sparkles className="w-4 h-4 mr-2" />
-                  Get Premium Verdict
-                </Button>
-              </Link>
+              <div className="space-y-2 mb-8 text-xs text-muted-foreground">
+                <button
+                  onClick={() => handlePremiumClick('price_1TXcljGS7DKAUUuwW5kRuF8d')}
+                  disabled={checkoutLoading}
+                  className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold py-2 rounded-md transition-all disabled:opacity-50"
+                >
+                  {checkoutLoading ? 'Loading...' : '€9 Single Verdict'}
+                </button>
+                <button
+                  onClick={() => handlePremiumClick('price_1TXcljGS7DKAUUuw9Q2B457k')}
+                  disabled={checkoutLoading}
+                  className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold py-2 rounded-md transition-all disabled:opacity-50"
+                >
+                  {checkoutLoading ? 'Loading...' : '€19/month Subscription'}
+                </button>
+              </div>
             </motion.div>
           </div>
         </div>
