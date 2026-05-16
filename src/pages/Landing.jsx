@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { usePullToRefresh } from '@/hooks/usePullToRefresh';
 import PullToRefreshIndicator from '@/components/layout/PullToRefreshIndicator';
 import { Link } from 'react-router-dom';
@@ -19,18 +19,30 @@ const fadeUp = (delay = 0) => ({
 });
 
 export default function Landing() {
-  const [checkoutLoading, setCheckoutLoading] = useCallback(false);
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
 
   const handlePremiumClick = useCallback(async (priceId) => {
     setCheckoutLoading(true);
     try {
-      const response = await base44.functions.invoke('createCheckout', { priceId });
+      const isIframe = window.self !== window.top;
+      if (isIframe) {
+        alert('Checkout only works from published app. Please open in a new tab.');
+        setCheckoutLoading(false);
+        return;
+      }
+
+      const response = await base44.functions.invoke('createCheckout', { priceId, isIframe: false });
+      if (response.data.error) {
+        alert(response.data.error);
+        setCheckoutLoading(false);
+        return;
+      }
       if (response.data.sessionUrl) {
         window.location.href = response.data.sessionUrl;
       }
     } catch (error) {
       console.error('Checkout error:', error);
-    } finally {
+      alert('Payment error. Please try again.');
       setCheckoutLoading(false);
     }
   }, []);

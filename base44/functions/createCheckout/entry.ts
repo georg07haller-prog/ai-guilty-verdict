@@ -4,10 +4,18 @@ const stripe = new Stripe(Deno.env.get('STRIPE_SECRET_KEY'));
 
 Deno.serve(async (req) => {
   try {
-    const { priceId, verdictId } = await req.json();
+    const { priceId, verdictId, isIframe } = await req.json();
 
     if (!priceId) {
       return Response.json({ error: 'Price ID required' }, { status: 400 });
+    }
+
+    // Block checkout from iframe
+    if (isIframe) {
+      return Response.json(
+        { error: 'Checkout only works from published app. Please open in a new tab.' },
+        { status: 400 }
+      );
     }
 
     // Get base URL from request headers
@@ -30,9 +38,10 @@ Deno.serve(async (req) => {
       },
     });
 
+    console.log(`✓ Checkout session created: ${session.id} (${priceId})`);
     return Response.json({ sessionId: session.id, sessionUrl: session.url });
   } catch (error) {
-    console.error('Checkout error:', error.message);
+    console.error('✗ Checkout error:', error.message);
     return Response.json({ error: error.message }, { status: 500 });
   }
 });
