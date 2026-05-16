@@ -317,7 +317,7 @@ export default function Landing() {
                 <p className="text-sm text-muted-foreground mt-1">Always free, no card needed</p>
               </div>
               <ul className="space-y-3 mb-8">
-                {['AI Risk Score (0–100%)', 'Evidence breakdown (8 categories)', 'Robot Judge's verdict paragraph', '1 Survival path preview', 'Shareable verdict card'].map(f => (
+                {["AI Risk Score (0–100%)", "Evidence breakdown (8 categories)", "Robot Judge's verdict paragraph", "1 Survival path preview", "Shareable verdict card"].map(f => (
                   <li key={f} className="flex items-center gap-2 text-sm text-muted-foreground">
                     <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" />
                     {f}
@@ -377,7 +377,7 @@ export default function Landing() {
             {[
               { icon: Globe, title: 'Built in Europe', desc: 'Developed and hosted within the EU. Subject to GDPR.' },
               { icon: Lock, title: 'No Data Selling', desc: 'Your inputs are never sold or used to train models.' },
-              { icon: Shield, title: 'Privacy-First Design', desc: 'Minimal data collection. Only what's needed for your verdict.' },
+              { icon: Shield, title: 'Privacy-First Design', desc: "Minimal data collection. Only what's needed for your verdict." },
               { icon: CheckCircle, title: 'GDPR Compliant', desc: 'Full transparency on what we store and how to delete it.' },
             ].map((item, i) => (
               <motion.div key={item.title} {...fadeUp(i * 0.1)} className="border border-border rounded-2xl p-5 bg-card text-center">
