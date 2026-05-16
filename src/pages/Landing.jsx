@@ -433,6 +433,8 @@ export default function Landing() {
             <span>⚖️ All verdicts final</span>
             <span>🔒 Privacy-first</span>
             <span>🇪🇺 GDPR compliant</span>
+            <Link to="/About" className="hover:text-foreground transition-colors">About</Link>
+            <Link to="/Contact" className="hover:text-foreground transition-colors">Contact</Link>
           </div>
         </div>
       </footer>
