@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Scale, Mail, MessageSquare, Twitter } from 'lucide-react';
 import CourtHeader from '../components/courtroom/CourtHeader';
+import DeleteAccountModal from '../components/layout/DeleteAccountModal';
 import { Button } from '@/components/ui/button';
 
 const fadeUp = (delay = 0) => ({
@@ -27,9 +28,9 @@ export default function Contact() {
 
   return (
     <div className="min-h-screen bg-background">
-      <CourtHeader />
+      <div className="hidden md:block"><CourtHeader /></div>
 
-      <main className="max-w-2xl mx-auto px-4 py-16 md:py-24 space-y-12">
+      <main className="max-w-2xl mx-auto px-4 py-8 md:py-24 pb-24 md:pb-16 space-y-12">
 
         <motion.div {...fadeUp(0)} className="space-y-4">
           <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-primary/30 bg-primary/10 text-primary text-xs font-mono tracking-wider">
@@ -139,9 +140,10 @@ export default function Contact() {
             <Scale className="w-4 h-4 text-primary" />
             <span>AI Guilty Verdict · Built in Europe · 2026</span>
           </div>
-          <div className="flex gap-4">
+          <div className="flex gap-4 items-center">
             <Link to="/About" className="hover:text-foreground transition-colors">About</Link>
             <Link to="/Contact" className="hover:text-foreground transition-colors">Contact</Link>
+            <DeleteAccountModal />
           </div>
         </div>
       </footer>

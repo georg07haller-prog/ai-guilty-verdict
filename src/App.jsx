@@ -1,7 +1,8 @@
 import { Toaster } from "@/components/ui/toaster"
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClientInstance } from '@/lib/query-client'
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate, useLocation } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
 import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
@@ -10,6 +11,45 @@ import Quiz from './pages/Quiz';
 import Results from './pages/Results';
 import About from './pages/About';
 import Contact from './pages/Contact';
+import BottomTabBar from './components/layout/BottomTabBar';
+import MobileHeader from './components/layout/MobileHeader';
+
+// Slide transition variants — native-like feel
+const pageVariants = {
+  initial: { x: '100%', opacity: 0 },
+  animate: { x: 0, opacity: 1 },
+  exit: { x: '-30%', opacity: 0 },
+};
+
+const pageTransition = { type: 'tween', ease: [0.22, 1, 0.36, 1], duration: 0.32 };
+
+function AnimatedRoutes() {
+  const location = useLocation();
+
+  return (
+    <AnimatePresence mode="wait" initial={false}>
+      <motion.div
+        key={location.pathname}
+        variants={pageVariants}
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        transition={pageTransition}
+        style={{ willChange: 'transform, opacity' }}
+      >
+        <Routes location={location}>
+          <Route path="/" element={<Navigate to="/Landing" replace />} />
+          <Route path="/Landing" element={<Landing />} />
+          <Route path="/Quiz" element={<Quiz />} />
+          <Route path="/Results" element={<Results />} />
+          <Route path="/About" element={<About />} />
+          <Route path="/Contact" element={<Contact />} />
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
+      </motion.div>
+    </AnimatePresence>
+  );
+}
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -32,18 +72,16 @@ const AuthenticatedApp = () => {
   }
 
   return (
-    <Routes>
-      <Route path="/" element={<Navigate to="/Landing" replace />} />
-      <Route path="/Landing" element={<Landing />} />
-      <Route path="/Quiz" element={<Quiz />} />
-      <Route path="/Results" element={<Results />} />
-      <Route path="/About" element={<About />} />
-      <Route path="/Contact" element={<Contact />} />
-      <Route path="*" element={<PageNotFound />} />
-    </Routes>
+    <div
+      className="relative overflow-x-hidden"
+      style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+    >
+      <MobileHeader />
+      <AnimatedRoutes />
+      <BottomTabBar />
+    </div>
   );
 };
-
 
 function App() {
   return (
@@ -55,7 +93,7 @@ function App() {
         <Toaster />
       </QueryClientProvider>
     </AuthProvider>
-  )
+  );
 }
 
-export default App
+export default App;

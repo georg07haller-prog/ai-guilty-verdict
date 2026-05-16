@@ -25,7 +25,7 @@ export default function Results() {
   if (!verdictData) {
     return (
       <div className="min-h-screen bg-background">
-        <CourtHeader />
+        <div className="hidden md:block"><CourtHeader /></div>
         <div className="flex flex-col items-center justify-center py-32 px-4 space-y-5 text-center">
           <div className="text-4xl">⚖️</div>
           <p className="font-display text-xl text-foreground">No verdict on record.</p>
@@ -45,9 +45,9 @@ export default function Results() {
 
   return (
     <div className="min-h-screen bg-background">
-      <CourtHeader />
+      <div className="hidden md:block"><CourtHeader /></div>
 
-      <main className="max-w-2xl mx-auto px-4 py-8 md:py-12">
+      <main className="max-w-2xl mx-auto px-4 py-8 md:py-12 pb-24 md:pb-12">
         {/* Case badge */}
         {inputData && (
           <motion.div
