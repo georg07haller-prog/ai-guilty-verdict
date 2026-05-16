@@ -1,10 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Scale, Zap, Shield, Brain, ChevronRight, Lock, Star, ArrowRight, CheckCircle, Globe, Sparkles } from 'lucide-react';
+import {
+  Scale, Zap, Shield, Brain, ChevronRight, Lock, Star,
+  ArrowRight, CheckCircle, Globe, Sparkles, Target, BookOpen, BarChart3
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import CourtHeader from '../components/courtroom/CourtHeader';
-import RobotJudge from '../components/courtroom/RobotJudge';
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 24 },
@@ -32,12 +34,11 @@ export default function Landing() {
       </div>
 
       {/* ── HERO ── */}
-      <section className="relative min-h-[90vh] flex items-center justify-center bg-grid overflow-hidden">
-        {/* Glow orbs */}
+      <section className="relative min-h-[92vh] flex items-center justify-center bg-grid overflow-hidden">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-primary/8 blur-3xl pointer-events-none" />
         <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-accent/8 blur-3xl pointer-events-none" />
 
-        <div className="relative z-10 max-w-5xl mx-auto px-4 py-16 md:py-24">
+        <div className="relative z-10 max-w-6xl mx-auto px-4 py-16 md:py-24">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Left: Copy */}
             <div className="space-y-7">
@@ -49,20 +50,24 @@ export default function Landing() {
               </motion.div>
 
               <motion.h1 {...fadeUp(0.1)} className="font-display text-4xl md:text-5xl lg:text-6xl font-black leading-[1.05] text-foreground">
-                Is Your Career
+                Robot Judge 2026
                 <br />
-                <span className="text-gradient-blue">Already Toast?</span>
+                <span className="text-gradient-blue">has spoken.</span>
               </motion.h1>
 
+              <motion.h2 {...fadeUp(0.15)} className="font-display text-2xl md:text-3xl font-bold text-foreground/80 leading-snug">
+                Is your career <span className="text-destructive">guilty</span>…<br className="hidden md:block" /> or AI-proof?
+              </motion.h2>
+
               <motion.p {...fadeUp(0.2)} className="text-lg text-muted-foreground leading-relaxed max-w-lg">
-                Get a brutally honest, AI-generated verdict on how replaceable you are — plus a personalised <strong className="text-foreground">Survival Kit</strong> to stay ahead of the algorithm.
+                Get a brutally honest, meme-infused verdict on your professional future in the age of AI. Laugh at your obsolescence risk — then walk away with a personalized re-skilling <strong className="text-foreground">Survival Kit</strong>.
               </motion.p>
 
               <motion.div {...fadeUp(0.3)} className="flex flex-col sm:flex-row gap-3">
                 <Link to="/Quiz">
                   <Button size="lg" className="w-full sm:w-auto px-8 py-6 text-base font-semibold bg-primary text-primary-foreground hover:bg-primary/90 animate-pulse-glow rounded-xl">
                     <Scale className="w-4 h-4 mr-2" />
-                    Get My Verdict — Free
+                    Get Your Verdict — Free
                   </Button>
                 </Link>
                 <a href="#how-it-works">
@@ -74,20 +79,27 @@ export default function Landing() {
               </motion.div>
 
               <motion.div {...fadeUp(0.4)} className="flex flex-wrap gap-x-6 gap-y-2 text-xs text-muted-foreground font-mono">
-                <span className="flex items-center gap-1.5"><CheckCircle className="w-3.5 h-3.5 text-primary" /> Under 2 minutes</span>
+                <span className="flex items-center gap-1.5"><CheckCircle className="w-3.5 h-3.5 text-primary" /> Under 60 seconds</span>
                 <span className="flex items-center gap-1.5"><CheckCircle className="w-3.5 h-3.5 text-primary" /> No sign-up required</span>
                 <span className="flex items-center gap-1.5"><CheckCircle className="w-3.5 h-3.5 text-primary" /> GDPR compliant</span>
               </motion.div>
             </div>
 
-            {/* Right: Robot Judge */}
+            {/* Right: Hero Image */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
+              initial={{ opacity: 0, scale: 0.93 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.7, delay: 0.2 }}
               className="flex justify-center"
             >
-              <RobotJudge />
+              <div className="relative w-full max-w-lg">
+                <div className="absolute inset-0 rounded-3xl bg-primary/15 blur-2xl scale-105" />
+                <img
+                  src="https://media.base44.com/images/public/69bac68abc49423e3d993638/596a3a033_generated_image.png"
+                  alt="Robot Judge 2026 courtroom — GUILTY 78% Obsolescence Risk"
+                  className="relative w-full rounded-3xl border border-primary/20 shadow-2xl object-cover"
+                />
+              </div>
             </motion.div>
           </div>
         </div>
@@ -109,20 +121,20 @@ export default function Landing() {
               {
                 step: '01',
                 icon: Brain,
-                title: 'State Your Case',
-                desc: 'Tell the Robot Judge your job title, industry, and 3 daily tasks. Be honest — it already knows.',
+                title: 'Quick Onboarding',
+                desc: 'Tell the Judge your age, industry, and role. Takes less than 60 seconds. Be honest — it already knows.',
               },
               {
                 step: '02',
-                icon: Zap,
-                title: 'The Interrogation',
-                desc: 'Answer 5 meme-style questions about your actual work habits. Sharper answers = sharper verdict.',
+                icon: Scale,
+                title: 'Receive Your Verdict',
+                desc: 'Robot Judge 2026 analyses your career and delivers a sharp, meme-worthy verdict with your personal Obsolescence Risk Score.',
               },
               {
                 step: '03',
-                icon: Scale,
-                title: 'Receive Your Verdict',
-                desc: 'Get your AI Obsolescence Risk Score, detailed evidence breakdown, and your personalised Survival Kit.',
+                icon: BookOpen,
+                title: 'Get Your Survival Kit',
+                desc: 'Receive a custom action plan with relevant skills, courses, and strategies to stay ahead of AI — specific to your role.',
               },
             ].map((item, i) => (
               <motion.div key={item.step} {...fadeUp(i * 0.12)} className="relative border border-border rounded-2xl p-6 bg-card hover:border-primary/30 transition-all group">
@@ -156,38 +168,52 @@ export default function Landing() {
             </h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {[
               {
+                emoji: '⚖️',
+                title: 'Brutal But Fair Verdict',
+                desc: "A shareable, meme-ready verdict paragraph written in Robot Judge 2026's signature sarcastic-but-wise tone.",
+                badge: 'Free',
+                badgeColor: 'bg-primary/10 text-primary border-primary/20',
+              },
+              {
                 emoji: '📊',
-                title: 'Career Obsolescence Risk Score',
+                title: 'Obsolescence Risk Score',
                 desc: 'A precise 0–100% score showing how likely AI is to heavily transform or replace your role, with a realistic timeframe.',
                 badge: 'Free',
                 badgeColor: 'bg-primary/10 text-primary border-primary/20',
               },
               {
-                emoji: '🔍',
-                title: 'Evidence Breakdown by Task Type',
-                desc: 'Your daily work sliced into 8 risk categories — from "Routine Emails" to "Ethical Decisions" — each rated and explained.',
-                badge: 'Free',
-                badgeColor: 'bg-primary/10 text-primary border-primary/20',
-              },
-              {
-                emoji: '⚡',
-                title: "Robot Judge's Personal Verdict",
-                desc: "A shareable, meme-ready verdict paragraph written in the Robot Judge's signature sarcastic-but-wise tone.",
+                emoji: '😂',
+                title: 'Meme-Worthy Verdict Card',
+                desc: "You'll actually want to share this. Screenshot-ready, provocative, and weirdly accurate.",
                 badge: 'Free',
                 badgeColor: 'bg-primary/10 text-primary border-primary/20',
               },
               {
                 emoji: '🛡️',
-                title: 'Personalised Survival Kit',
-                desc: '4 concrete reskilling paths with specific courses, platforms, income ranges, and why each niche is AI-resistant in EU/US in 2026.',
+                title: 'Re-Skilling Survival Kit',
+                desc: 'Custom action plan with specific courses, platforms, income ranges, and why each niche is AI-resistant right now.',
+                badge: 'Pro',
+                badgeColor: 'bg-accent/10 text-accent border-accent/20',
+              },
+              {
+                emoji: '🔁',
+                title: 'Multiple Verdicts',
+                desc: 'Generate verdicts with different parameters — explore alternative career paths or see how upskilling changes your score.',
+                badge: 'Pro',
+                badgeColor: 'bg-accent/10 text-accent border-accent/20',
+              },
+              {
+                emoji: '📜',
+                title: 'Verdict History',
+                desc: 'Track how your risk score evolves over time as the job market and your skills change.',
                 badge: 'Pro',
                 badgeColor: 'bg-accent/10 text-accent border-accent/20',
               },
             ].map((item, i) => (
-              <motion.div key={item.title} {...fadeUp(i * 0.1)} className="border border-border rounded-2xl p-6 bg-card hover:border-primary/20 transition-all">
+              <motion.div key={item.title} {...fadeUp(i * 0.08)} className="border border-border rounded-2xl p-6 bg-card hover:border-primary/20 transition-all">
                 <div className="flex items-start justify-between mb-3">
                   <span className="text-2xl">{item.emoji}</span>
                   <span className={`text-xs font-mono px-2.5 py-1 rounded-full border ${item.badgeColor}`}>{item.badge}</span>
@@ -205,23 +231,23 @@ export default function Landing() {
         <div className="max-w-5xl mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <motion.div {...fadeUp()} className="space-y-5">
-              <p className="font-mono text-xs text-primary uppercase tracking-widest">Why It Matters</p>
+              <p className="font-mono text-xs text-primary uppercase tracking-widest">Why AI Guilty Verdict?</p>
               <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground leading-tight">
-                The AI Shift is Real.<br />
-                <span className="text-gradient-blue">Are You Ready?</span>
+                Most career advice in 2026<br />
+                <span className="text-gradient-blue">is either too polite or too generic.</span>
               </h2>
               <p className="text-muted-foreground leading-relaxed">
-                By 2026, an estimated <strong className="text-foreground">300 million jobs</strong> globally are being transformed by AI — not all replaced, but all changed. Most professionals have no idea where they actually stand.
+                AI Guilty Verdict gives you <strong className="text-foreground">honest feedback with a side of dark humor</strong> — so you can stop guessing and start adapting. Whether you're in tech, marketing, finance, or creative fields — the Judge doesn't sugarcoat reality. But it also gives you a clear path forward.
               </p>
               <p className="text-muted-foreground leading-relaxed">
-                AI Guilty Verdict gives you a clear, personalised picture — without the anxiety spiral. Think of it as a brutally funny wake-up call that ends with an actionable plan.
+                By 2026, an estimated <strong className="text-foreground">300 million jobs</strong> globally are being transformed by AI. Most professionals have no idea where they actually stand. This tool gives you a clear, personalised picture in under 60 seconds.
               </p>
               <div className="grid grid-cols-2 gap-4 pt-2">
                 {[
                   { value: '300M', label: 'Jobs being transformed' },
-                  { value: '2 min', label: 'To get your verdict' },
+                  { value: '60s', label: 'To get your verdict' },
                   { value: '8', label: 'Risk categories analysed' },
-                  { value: '4', label: 'Survival paths provided' },
+                  { value: '4+', label: 'Survival paths provided' },
                 ].map((stat) => (
                   <div key={stat.label} className="border border-border rounded-xl p-4 bg-card">
                     <div className="font-display text-2xl font-bold text-primary">{stat.value}</div>
@@ -250,8 +276,31 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* ── TESTIMONIALS ── */}
+      {/* ── APP PREVIEW VISUAL ── */}
       <section className="py-20 md:py-28 section-divider bg-secondary/10">
+        <div className="max-w-5xl mx-auto px-4">
+          <motion.div {...fadeUp()} className="text-center mb-12">
+            <p className="font-mono text-xs text-accent uppercase tracking-widest mb-3">See It In Action</p>
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground">
+              Verdict + Survival Kit, Delivered
+            </h2>
+            <p className="text-muted-foreground mt-3 max-w-xl mx-auto">
+              Your risk score on the left. Your personalised action plan on the right. Everything you need, in one sharp report.
+            </p>
+          </motion.div>
+          <motion.div {...fadeUp(0.15)} className="relative max-w-4xl mx-auto">
+            <div className="absolute inset-0 rounded-3xl bg-primary/10 blur-2xl scale-105 pointer-events-none" />
+            <img
+              src="https://media.base44.com/images/public/69bac68abc49423e3d993638/1a3c1b6ad_generated_image.png"
+              alt="AI Guilty Verdict app — verdict screen and re-skilling survival kit"
+              className="relative w-full rounded-3xl border border-primary/20 shadow-2xl object-cover"
+            />
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── TESTIMONIALS ── */}
+      <section className="py-20 md:py-28 section-divider">
         <div className="max-w-5xl mx-auto px-4">
           <motion.div {...fadeUp()} className="text-center mb-12">
             <p className="font-mono text-xs text-primary uppercase tracking-widest mb-3">Testimonials</p>
@@ -268,7 +317,7 @@ export default function Landing() {
                 stars: 5,
               },
               {
-                quote: "The Robot Judge called me out by name. Not literally, but it felt personal. The survival kit was actually useful.",
+                quote: "The Robot Judge called me out. Not literally, but it felt personal. The survival kit was actually useful.",
                 name: "Tom B.",
                 role: "Content Strategist, Amsterdam",
                 stars: 5,
@@ -297,79 +346,16 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* ── PRICING ── */}
-      <section id="pricing" className="py-20 md:py-28 section-divider">
-        <div className="max-w-4xl mx-auto px-4">
-          <motion.div {...fadeUp()} className="text-center mb-14">
-            <p className="font-mono text-xs text-primary uppercase tracking-widest mb-3">Pricing</p>
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground">
-              One Verdict. Two Depths.
-            </h2>
-            <p className="text-muted-foreground mt-3">Start free. Go deeper when you're ready.</p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Free */}
-            <motion.div {...fadeUp(0.1)} className="border border-border rounded-2xl p-8 bg-card">
-              <div className="mb-6">
-                <p className="font-mono text-xs text-muted-foreground uppercase tracking-widest mb-2">Free</p>
-                <div className="font-display text-4xl font-bold text-foreground">€0</div>
-                <p className="text-sm text-muted-foreground mt-1">Always free, no card needed</p>
-              </div>
-              <ul className="space-y-3 mb-8">
-                {["AI Risk Score (0–100%)", "Evidence breakdown (8 categories)", "Robot Judge's verdict paragraph", "1 Survival path preview", "Shareable verdict card"].map(f => (
-                  <li key={f} className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" />
-                    {f}
-                  </li>
-                ))}
-              </ul>
-              <Link to="/Quiz">
-                <Button variant="outline" className="w-full border-border text-foreground hover:bg-secondary">
-                  Get Free Verdict
-                </Button>
-              </Link>
-            </motion.div>
-
-            {/* Pro */}
-            <motion.div {...fadeUp(0.2)} className="relative border-2 border-primary rounded-2xl p-8 bg-card glow-blue overflow-hidden">
-              <div className="absolute top-4 right-4">
-                <span className="px-2.5 py-1 rounded-full bg-primary text-primary-foreground text-xs font-semibold font-mono">MOST POPULAR</span>
-              </div>
-              <div className="mb-6">
-                <p className="font-mono text-xs text-primary uppercase tracking-widest mb-2">Pro Verdict</p>
-                <div className="font-display text-4xl font-bold text-foreground">€9<span className="text-lg text-muted-foreground font-body font-normal">/verdict</span></div>
-                <p className="text-sm text-muted-foreground mt-1">Or €19/month for unlimited</p>
-              </div>
-              <ul className="space-y-3 mb-8">
-                {['Everything in Free', 'Full Survival Kit (4 personalised paths)', 'Detailed income ranges & platforms', 'Verdict history & comparisons', 'Priority AI model (Claude Sonnet)', 'PDF export of your full report'].map(f => (
-                  <li key={f} className="flex items-center gap-2 text-sm text-foreground">
-                    <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" />
-                    {f}
-                  </li>
-                ))}
-              </ul>
-              <Link to="/Quiz">
-                <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold">
-                  <Sparkles className="w-4 h-4 mr-2" />
-                  Get Pro Verdict
-                </Button>
-              </Link>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
       {/* ── PRIVACY & TRUST ── */}
       <section className="py-20 md:py-28 section-divider bg-secondary/10">
         <div className="max-w-5xl mx-auto px-4">
           <motion.div {...fadeUp()} className="text-center mb-12">
             <p className="font-mono text-xs text-primary uppercase tracking-widest mb-3">Privacy First</p>
             <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground">
-              Your Data Stays Yours
+              Your Career Data Stays Yours
             </h2>
             <p className="text-muted-foreground mt-3 max-w-lg mx-auto">
-              We're not the AI you're worried about. We built this with European values in mind.
+              We're not the AI you're worried about. Built with European values in mind.
             </p>
           </motion.div>
 
@@ -392,6 +378,84 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* ── PRICING ── */}
+      <section id="pricing" className="py-20 md:py-28 section-divider">
+        <div className="max-w-4xl mx-auto px-4">
+          <motion.div {...fadeUp()} className="text-center mb-14">
+            <p className="font-mono text-xs text-primary uppercase tracking-widest mb-3">Pricing</p>
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground">
+              One Verdict. Two Depths.
+            </h2>
+            <p className="text-muted-foreground mt-3">Start free. Go deeper when you're ready.</p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Free */}
+            <motion.div {...fadeUp(0.1)} className="border border-border rounded-2xl p-8 bg-card">
+              <div className="mb-6">
+                <p className="font-mono text-xs text-muted-foreground uppercase tracking-widest mb-2">Free</p>
+                <div className="font-display text-4xl font-bold text-foreground">€0</div>
+                <p className="text-sm text-muted-foreground mt-1">Always free, no card needed</p>
+              </div>
+              <ul className="space-y-3 mb-8">
+                {[
+                  "Limited verdicts",
+                  "AI Risk Score (0–100%)",
+                  "Evidence breakdown",
+                  "Robot Judge's verdict paragraph",
+                  "Basic survival recommendations",
+                  "Shareable verdict card",
+                ].map(f => (
+                  <li key={f} className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" />
+                    {f}
+                  </li>
+                ))}
+              </ul>
+              <Link to="/Quiz">
+                <Button variant="outline" className="w-full border-border text-foreground hover:bg-secondary">
+                  Get Free Verdict
+                </Button>
+              </Link>
+            </motion.div>
+
+            {/* Pro */}
+            <motion.div {...fadeUp(0.2)} className="relative border-2 border-primary rounded-2xl p-8 bg-card glow-blue overflow-hidden">
+              <div className="absolute top-4 right-4">
+                <span className="px-2.5 py-1 rounded-full bg-primary text-primary-foreground text-xs font-semibold font-mono">MOST POPULAR</span>
+              </div>
+              <div className="mb-6">
+                <p className="font-mono text-xs text-primary uppercase tracking-widest mb-2">Premium</p>
+                <div className="font-display text-4xl font-bold text-foreground">€9<span className="text-lg text-muted-foreground font-body font-normal">/verdict</span></div>
+                <p className="text-sm text-muted-foreground mt-1">Or €19/month for unlimited</p>
+              </div>
+              <ul className="space-y-3 mb-8">
+                {[
+                  'Everything in Free',
+                  'Unlimited verdicts',
+                  'Full Personalised Survival Kit (4+ paths)',
+                  'Detailed income ranges & platforms',
+                  'Verdict history & comparisons',
+                  'Priority AI model (Claude Sonnet)',
+                  'PDF export of your full report',
+                ].map(f => (
+                  <li key={f} className="flex items-center gap-2 text-sm text-foreground">
+                    <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" />
+                    {f}
+                  </li>
+                ))}
+              </ul>
+              <Link to="/Quiz">
+                <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold">
+                  <Sparkles className="w-4 h-4 mr-2" />
+                  Get Premium Verdict
+                </Button>
+              </Link>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       {/* ── FINAL CTA ── */}
       <section className="py-24 md:py-32 relative overflow-hidden">
         <div className="absolute inset-0 bg-grid opacity-50" />
@@ -403,16 +467,17 @@ export default function Landing() {
               THE COURT IS IN SESSION
             </span>
             <h2 className="font-display text-4xl md:text-5xl font-black text-foreground leading-tight">
-              Ready to Face<br />
-              <span className="text-gradient-blue">Your Verdict?</span>
+              Ready to hear what<br />
+              <span className="text-gradient-blue">Robot Judge 2026</span><br />
+              thinks about your career?
             </h2>
             <p className="text-muted-foreground text-lg max-w-md mx-auto">
-              2 minutes. One brutal truth. An actionable plan. The Robot Judge is waiting.
+              60 seconds. One brutal truth. A personalised plan. The Judge is waiting.
             </p>
             <Link to="/Quiz">
               <Button size="lg" className="px-12 py-6 text-base font-semibold bg-primary text-primary-foreground hover:bg-primary/90 animate-pulse-glow rounded-xl">
                 <Scale className="w-5 h-5 mr-2" />
-                Enter the Courtroom — Free
+                Get My Verdict Now
               </Button>
             </Link>
             <p className="text-xs text-muted-foreground/60 font-mono">
@@ -429,12 +494,12 @@ export default function Landing() {
             <Scale className="w-4 h-4 text-primary" />
             <span>AI Guilty Verdict · Built in Europe · 2026</span>
           </div>
-          <div className="flex gap-4">
+          <div className="flex gap-4 flex-wrap justify-center">
+            <Link to="/About" className="hover:text-foreground transition-colors">About</Link>
+            <Link to="/Contact" className="hover:text-foreground transition-colors">Contact</Link>
             <span>⚖️ All verdicts final</span>
             <span>🔒 Privacy-first</span>
             <span>🇪🇺 GDPR compliant</span>
-            <Link to="/About" className="hover:text-foreground transition-colors">About</Link>
-            <Link to="/Contact" className="hover:text-foreground transition-colors">Contact</Link>
           </div>
         </div>
       </footer>
