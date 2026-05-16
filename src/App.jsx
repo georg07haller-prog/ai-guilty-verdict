@@ -14,40 +14,61 @@ import Contact from './pages/Contact';
 import BottomTabBar from './components/layout/BottomTabBar';
 import MobileHeader from './components/layout/MobileHeader';
 
-// Slide transition variants — native-like feel
+// Tab routes that stay mounted (keep-alive) for instant switching + state preservation
+const TAB_ROUTES = ['/Landing', '/Quiz', '/About'];
+
+// Slide transition — only for non-tab (child) routes
 const pageVariants = {
   initial: { x: '100%', opacity: 0 },
   animate: { x: 0, opacity: 1 },
   exit: { x: '-30%', opacity: 0 },
 };
-
 const pageTransition = { type: 'tween', ease: [0.22, 1, 0.36, 1], duration: 0.32 };
+
+// Always-mounted tab screens — shown/hidden via display:none
+function TabScreens({ activePath }) {
+  return (
+    <>
+      <div style={{ display: activePath === '/Landing' ? 'block' : 'none' }}><Landing /></div>
+      <div style={{ display: activePath === '/Quiz' ? 'block' : 'none' }}><Quiz /></div>
+      <div style={{ display: activePath === '/About' ? 'block' : 'none' }}><About /></div>
+    </>
+  );
+}
 
 function AnimatedRoutes() {
   const location = useLocation();
+  const isTabRoute = TAB_ROUTES.includes(location.pathname) || location.pathname === '/';
+  const activePath = location.pathname === '/' ? '/Landing' : location.pathname;
 
   return (
-    <AnimatePresence mode="wait" initial={false}>
-      <motion.div
-        key={location.pathname}
-        variants={pageVariants}
-        initial="initial"
-        animate="animate"
-        exit="exit"
-        transition={pageTransition}
-        style={{ willChange: 'transform, opacity' }}
-      >
-        <Routes location={location}>
-          <Route path="/" element={<Navigate to="/Landing" replace />} />
-          <Route path="/Landing" element={<Landing />} />
-          <Route path="/Quiz" element={<Quiz />} />
-          <Route path="/Results" element={<Results />} />
-          <Route path="/About" element={<About />} />
-          <Route path="/Contact" element={<Contact />} />
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
-      </motion.div>
-    </AnimatePresence>
+    <>
+      {/* Keep-alive tab screens — always in DOM, toggled via display */}
+      <div style={{ display: isTabRoute ? 'block' : 'none' }}>
+        <TabScreens activePath={activePath} />
+      </div>
+
+      {/* Child routes with slide transition */}
+      {!isTabRoute && (
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={location.pathname}
+            variants={pageVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            transition={pageTransition}
+            style={{ willChange: 'transform, opacity' }}
+          >
+            <Routes location={location}>
+              <Route path="/Results" element={<Results />} />
+              <Route path="/Contact" element={<Contact />} />
+              <Route path="*" element={<PageNotFound />} />
+            </Routes>
+          </motion.div>
+        </AnimatePresence>
+      )}
+    </>
   );
 }
 

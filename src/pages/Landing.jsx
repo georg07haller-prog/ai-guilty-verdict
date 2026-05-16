@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useCallback } from 'react';
+import { usePullToRefresh } from '@/hooks/usePullToRefresh';
+import PullToRefreshIndicator from '@/components/layout/PullToRefreshIndicator';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
@@ -16,8 +18,20 @@ const fadeUp = (delay = 0) => ({
 });
 
 export default function Landing() {
+  const handleRefresh = useCallback(async () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+  const { pullDistance, refreshing, onTouchStart, onTouchMove, onTouchEnd } =
+    usePullToRefresh(handleRefresh);
+
   return (
-    <div className="min-h-screen bg-background overflow-x-hidden">
+    <div
+      className="min-h-screen bg-background overflow-x-hidden"
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+    >
+      <PullToRefreshIndicator pullDistance={pullDistance} refreshing={refreshing} />
       <CourtHeader />
 
       {/* ── TICKER ── */}

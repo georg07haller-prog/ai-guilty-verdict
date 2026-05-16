@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { usePullToRefresh } from '@/hooks/usePullToRefresh';
+import PullToRefreshIndicator from '@/components/layout/PullToRefreshIndicator';
 import { motion } from 'framer-motion';
 import { RotateCcw, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -15,12 +17,17 @@ export default function Results() {
   const [verdictData, setVerdictData] = useState(null);
   const [inputData, setInputData] = useState(null);
 
-  useEffect(() => {
+  const loadData = useCallback(() => {
     const stored = sessionStorage.getItem('latestVerdict');
     const storedInput = sessionStorage.getItem('latestVerdictInput');
     if (stored) setVerdictData(JSON.parse(stored));
     if (storedInput) setInputData(JSON.parse(storedInput));
   }, []);
+
+  useEffect(() => { loadData(); }, [loadData]);
+
+  const { pullDistance, refreshing, onTouchStart, onTouchMove, onTouchEnd } =
+    usePullToRefresh(async () => { loadData(); });
 
   if (!verdictData) {
     return (
@@ -44,7 +51,13 @@ export default function Results() {
   const riskColor = pct >= 75 ? 'text-red-400' : pct >= 45 ? 'text-yellow-400' : 'text-green-400';
 
   return (
-    <div className="min-h-screen bg-background">
+    <div
+      className="min-h-screen bg-background"
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+    >
+      <PullToRefreshIndicator pullDistance={pullDistance} refreshing={refreshing} />
       <div className="hidden md:block"><CourtHeader /></div>
 
       <main className="max-w-2xl mx-auto px-4 py-8 md:py-12 pb-24 md:pb-12">

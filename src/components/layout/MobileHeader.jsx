@@ -23,8 +23,12 @@ export default function MobileHeader() {
 
   return (
     <header
-      className="md:hidden sticky top-0 z-50 bg-background/90 backdrop-blur-md border-b border-border/40 flex items-center h-14 px-4 gap-3"
-      style={{ paddingTop: 'env(safe-area-inset-top)' }}
+      className="md:hidden sticky top-0 z-50 bg-background/90 backdrop-blur-md border-b border-border/40 flex items-center px-4 gap-3"
+      style={{
+        minHeight: '3.5rem',
+        paddingTop: 'calc(env(safe-area-inset-top) + 0.5rem)',
+        paddingBottom: '0.5rem',
+      }}
     >
       {isChild && (
         <button
