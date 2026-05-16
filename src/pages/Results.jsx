@@ -99,6 +99,13 @@ export default function Results() {
             <RotateCcw className="w-4 h-4 mr-2" />
             Try Another Role
           </Button>
+          <Button
+            variant="outline"
+            onClick={() => navigate('/Quiz')}
+            className="flex-1 border-yellow-500/40 text-yellow-400 hover:bg-yellow-500/10 hover:text-yellow-300"
+          >
+            ⚖️ File an Appeal
+          </Button>
           <DownloadVerdictPDF verdictData={verdictData} inputData={inputData} />
         </div>
         <div className="mt-3">
