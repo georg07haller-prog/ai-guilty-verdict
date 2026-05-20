@@ -1,0 +1,55 @@
+{
+  "name": "Verdict",
+  "type": "object",
+  "properties": {
+    "job_title": {
+      "type": "string",
+      "description": "User's job title"
+    },
+    "industry": {
+      "type": "string",
+      "description": "User's industry"
+    },
+    "daily_tasks": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "3 most frequent daily tasks"
+    },
+    "meme_answers": {
+      "type": "object",
+      "description": "Meme-style quiz answers"
+    },
+    "is_paid": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this is a paid detailed verdict"
+    },
+    "verdict_text": {
+      "type": "string",
+      "description": "Full AI-generated verdict"
+    },
+    "obsolescence_probability": {
+      "type": "number",
+      "description": "Probability percentage of obsolescence"
+    }
+  },
+  "required": [
+    "job_title",
+    "industry",
+    "daily_tasks"
+  ],
+  "rls": {
+    "create": {},
+    "read": {
+      "created_by": "{{user.email}}"
+    },
+    "update": {
+      "created_by": "{{user.email}}"
+    },
+    "delete": {
+      "created_by": "{{user.email}}"
+    }
+  }
+}
