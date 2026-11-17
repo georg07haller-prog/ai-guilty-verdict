@@ -9,9 +9,10 @@ const PAGE_TITLES = {
   '/About': 'About',
   '/Contact': 'Contact',
   '/MyVerdicts': 'My Verdicts',
+  '/IndustryRisk': 'Industry Benchmarks',
 };
 
-const CHILD_ROUTES = ['/Quiz', '/Results', '/MyVerdicts'];
+const CHILD_ROUTES = ['/Quiz', '/Results', '/MyVerdicts', '/IndustryRisk'];
 
 export default function MobileHeader() {
   const location = useLocation();

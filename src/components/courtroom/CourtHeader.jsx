@@ -28,6 +28,9 @@ export default function CourtHeader() {
           <Link to="/Quiz" className="text-sm text-muted-foreground hover:text-foreground transition-colors font-body">
             Take the Test
           </Link>
+          <Link to="/IndustryRisk" className="text-sm text-muted-foreground hover:text-foreground transition-colors font-body">
+            Industry Data
+          </Link>
           <Link to="/About" className="text-sm text-muted-foreground hover:text-foreground transition-colors font-body">
             About
           </Link>
@@ -52,6 +55,7 @@ export default function CourtHeader() {
         <div className="md:hidden border-t border-border/40 bg-background/95 backdrop-blur-md px-4 py-4 space-y-3">
           <Link to="/Landing" onClick={() => setOpen(false)} className="block text-sm text-muted-foreground hover:text-foreground py-2">Home</Link>
           <Link to="/Quiz" onClick={() => setOpen(false)} className="block text-sm text-muted-foreground hover:text-foreground py-2">Take the Test</Link>
+          <Link to="/IndustryRisk" onClick={() => setOpen(false)} className="block text-sm text-muted-foreground hover:text-foreground py-2">Industry Data</Link>
           <Link to="/About" onClick={() => setOpen(false)} className="block text-sm text-muted-foreground hover:text-foreground py-2">About</Link>
           <Link to="/Contact" onClick={() => setOpen(false)} className="block text-sm text-muted-foreground hover:text-foreground py-2">Contact</Link>
           <Link

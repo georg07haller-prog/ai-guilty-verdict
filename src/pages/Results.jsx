@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { usePullToRefresh } from '@/hooks/usePullToRefresh';
 import PullToRefreshIndicator from '@/components/layout/PullToRefreshIndicator';
 import { motion } from 'framer-motion';
-import { AlertCircle, History, Loader2, RotateCcw } from 'lucide-react';
+import { AlertCircle, BarChart3, History, Loader2, RotateCcw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { base44 } from '@/api/base44Client';
 import CourtHeader from '../components/courtroom/CourtHeader';
@@ -230,13 +230,20 @@ export default function Results() {
           <ShareVerdictPanel verdictData={verdictData} inputData={inputData} verdictId={verdictId} />
         </div>
 
-        <div className="mt-6 text-center">
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
           <Link
             to="/MyVerdicts"
             className="inline-flex items-center gap-2 font-mono text-xs text-muted-foreground hover:text-foreground transition-colors"
           >
             <History className="h-3.5 w-3.5" />
             My verdicts
+          </Link>
+          <Link
+            to="/IndustryRisk"
+            className="inline-flex items-center gap-2 font-mono text-xs text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <BarChart3 className="h-3.5 w-3.5" />
+            Compare with other industries
           </Link>
         </div>
 
