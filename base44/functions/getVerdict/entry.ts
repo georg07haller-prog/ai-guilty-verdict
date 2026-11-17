@@ -51,6 +51,28 @@ export default async function (req: Request): Promise<Response> {
     // An unconfirmed payment still opens the verdict — just locked.
     if (!verdictId) verdictId = sessionVerdictId;
 
+    // A signed-in buyer gets the kit they paid for back on any device.
+    if (!unlocked && verdictId) {
+      const buyerEmail = await base44.auth.me()
+        .then((user: any) => (user?.email || '').toLowerCase() || null)
+        .catch(() => null);
+
+      if (buyerEmail) {
+        try {
+          const claimed: any = await base44.asServiceRole.entities.Purchase.filter(
+            { verdict_id: verdictId, status: 'paid' },
+            { limit: 20 }
+          );
+          const purchases = Array.isArray(claimed) ? claimed : claimed?.items || [];
+          unlocked = purchases.some(
+            (purchase: any) => (purchase.customer_email || '').toLowerCase() === buyerEmail
+          );
+        } catch (error) {
+          console.error('✗ Buyer lookup failed:', error.message);
+        }
+      }
+    }
+
     if (!verdictId) {
       return Response.json({ error: 'No verdict attached to this purchase' }, { status: 404 });
     }

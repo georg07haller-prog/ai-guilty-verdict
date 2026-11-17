@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { jsPDF } from 'jspdf';
+import { track } from '@/lib/analytics';
 
 export default function DownloadVerdictPDF({ verdictData, inputData }) {
   const [loading, setLoading] = useState(false);
@@ -238,6 +239,7 @@ export default function DownloadVerdictPDF({ verdictData, inputData }) {
       doc.text('aiguiltyverdict.com  ·  MadProfessor Laboratory  ·  Built in Europe  ·  All verdicts are final', W / 2, 292, { align: 'center' });
 
       doc.save(`verdict-${job.toLowerCase().replace(/\s+/g, '-')}-${caseId}.pdf`);
+      track('pdf_downloaded');
     } finally {
       setLoading(false);
     }

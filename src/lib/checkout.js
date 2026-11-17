@@ -1,4 +1,5 @@
 import { base44 } from '@/api/base44Client';
+import { track } from '@/lib/analytics';
 
 /**
  * Starts Stripe checkout for a server-catalog product ('verdict' | 'subscription').
@@ -18,6 +19,7 @@ export async function startCheckout(product, verdictId) {
     if (response.data?.error) throw new Error(response.data.error);
     const url = response.data?.url;
     if (!url) throw new Error('Could not start checkout.');
+    track('checkout_opened', { product });
 
     if (checkoutTab) {
       checkoutTab.location.replace(url);

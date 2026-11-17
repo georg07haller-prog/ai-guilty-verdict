@@ -10,6 +10,7 @@ import MemeQuestion from '../components/courtroom/MemeQuestion';
 import { memeQuestions } from '../lib/memeQuestions';
 import { base44 } from '@/api/base44Client';
 import { saveVerdictToHistory } from '@/lib/verdictHistory';
+import { track } from '@/lib/analytics';
 
 const STEPS = ['info', 'tasks', 'memes'];
 
@@ -36,6 +37,11 @@ export default function Quiz() {
     if (step === 1) return tasks.filter(t => t.trim()).length >= 2;
     if (step === 2) return Object.keys(memeAnswers).length >= 3;
     return false;
+  };
+
+  const handleNext = () => {
+    if (step === 0) track('quiz_started');
+    setStep(step + 1);
   };
 
   const handleSubmit = async () => {
@@ -154,6 +160,7 @@ Include 4 survival options. Make the analysis accurate to their real activities 
         created_date: new Date().toISOString(),
       });
 
+      track('verdict_generated', { risk_percent: result.probability?.percent || 0 });
       navigate('/Results');
     } catch (err) {
       console.error('Verdict generation failed:', err);
@@ -365,7 +372,7 @@ Include 4 survival options. Make the analysis accurate to their real activities 
 
             {step < STEPS.length - 1 ? (
               <Button
-                onClick={() => setStep(step + 1)}
+                onClick={handleNext}
                 disabled={!canProceed()}
                 className="font-display bg-primary text-primary-foreground hover:bg-primary/90"
               >

@@ -4,6 +4,7 @@ import { Share2, Copy, Check, Twitter, MessageCircle, Linkedin, Send } from 'luc
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import VerdictShareCard from './VerdictShareCard';
+import { track } from '@/lib/analytics';
 
 export default function ShareVerdictPanel({ verdictData, inputData, verdictId }) {
   const [open, setOpen] = useState(false);
@@ -68,12 +69,14 @@ ${memeEmoji} Job: ${job}
 
   const handleCopy = async () => {
     await navigator.clipboard.writeText(shareText);
+    track('share_clicked', { channel: 'copy' });
     setCopied(true);
     toast({ title: 'Ссылка скопирована!', description: 'Отправьте её кому угодно — вердикт откроется по ней.' });
     setTimeout(() => setCopied(false), 2000);
   };
 
   const handleNativeShare = () => {
+    track('share_clicked', { channel: 'native' });
     if (navigator.share) {
       navigator.share({ title: 'AI Guilty Verdict', text: shareText, url: shareUrl });
     } else {

@@ -12,6 +12,7 @@ import DownloadVerdictPDF from '../components/verdict/DownloadVerdictPDF';
 import ShareVerdictPanel from '../components/verdict/ShareVerdictPanel';
 import { startCheckout } from '@/lib/checkout';
 import { getUnlockToken, saveUnlockToken } from '@/lib/verdictHistory';
+import { track } from '@/lib/analytics';
 
 export default function Results() {
   const navigate = useNavigate();
@@ -69,6 +70,7 @@ export default function Results() {
     if (sessionId && data.unlocked) {
       saveUnlockToken(data.verdict_id, sessionId);
       window.history.replaceState({}, '', `/Results?id=${data.verdict_id}`);
+      track('verdict_unlocked', { verdict_id: data.verdict_id });
     }
   }, []);
 
@@ -107,6 +109,7 @@ export default function Results() {
   const handleUnlock = async () => {
     setUnlocking(true);
     setNotice('');
+    track('unlock_clicked', { verdict_id: verdictId });
     try {
       await startCheckout('verdict', verdictId);
     } catch (error) {
