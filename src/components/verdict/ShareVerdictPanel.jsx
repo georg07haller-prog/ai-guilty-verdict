@@ -3,8 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Share2, Copy, Check, Twitter, MessageCircle, Linkedin, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
+import VerdictShareCard from './VerdictShareCard';
 
-export default function ShareVerdictPanel({ verdictData, inputData }) {
+export default function ShareVerdictPanel({ verdictData, inputData, verdictId }) {
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const { toast } = useToast();
@@ -16,6 +17,10 @@ export default function ShareVerdictPanel({ verdictData, inputData }) {
   const memeEmoji = pct >= 75 ? '🔴💀' : pct >= 45 ? '🟡😬' : '🟢😌';
   const verdict_label = pct >= 75 ? 'GUILTY — Highly Obsolete' : pct >= 45 ? 'SUSPENDED SENTENCE' : 'ACQUITTED — For Now';
 
+  const shareUrl = verdictId
+    ? `${window.location.origin}/Results?id=${verdictId}`
+    : `${window.location.origin}/Results`;
+
   const shareText = `⚖️🤖 ROBOT JUDGE 2026 HAS SPOKEN
 
 ${memeEmoji} Job: ${job}
@@ -24,9 +29,10 @@ ${memeEmoji} Job: ${job}
 
 "${verdict}..."
 
-👉 Get YOUR verdict → https://aiguiltyverdict.com`;
+👉 Get YOUR verdict → ${shareUrl}`;
 
   const encodedText = encodeURIComponent(shareText);
+  const encodedUrl = encodeURIComponent(shareUrl);
   const shortText = encodeURIComponent(`⚖️ Robot Judge 2026 gave me ${pct}% obsolescence risk as ${job} ${memeEmoji}\n\nGet YOUR verdict 👇`);
 
   const networks = [
@@ -35,14 +41,14 @@ ${memeEmoji} Job: ${job}
       icon: Twitter,
       color: 'hover:bg-[#1a1a2e] hover:border-[#1d9bf0]/40',
       iconColor: 'text-[#1d9bf0]',
-      url: `https://twitter.com/intent/tweet?text=${shortText}&url=${encodeURIComponent('https://aiguiltyverdict.com')}`,
+      url: `https://twitter.com/intent/tweet?text=${shortText}&url=${encodedUrl}`,
     },
     {
       name: 'Telegram',
       icon: Send,
       color: 'hover:bg-[#1a1a2e] hover:border-[#29a8eb]/40',
       iconColor: 'text-[#29a8eb]',
-      url: `https://t.me/share/url?url=${encodeURIComponent('https://aiguiltyverdict.com')}&text=${encodedText}`,
+      url: `https://t.me/share/url?url=${encodedUrl}&text=${encodedText}`,
     },
     {
       name: 'WhatsApp',
@@ -56,20 +62,20 @@ ${memeEmoji} Job: ${job}
       icon: Linkedin,
       color: 'hover:bg-[#1a1a2e] hover:border-[#0a66c2]/40',
       iconColor: 'text-[#0a66c2]',
-      url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent('https://aiguiltyverdict.com')}`,
+      url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
     },
   ];
 
   const handleCopy = async () => {
     await navigator.clipboard.writeText(shareText);
     setCopied(true);
-    toast({ title: 'Текст скопирован!', description: 'Вставьте в любую соцсеть.' });
+    toast({ title: 'Ссылка скопирована!', description: 'Отправьте её кому угодно — вердикт откроется по ней.' });
     setTimeout(() => setCopied(false), 2000);
   };
 
   const handleNativeShare = () => {
     if (navigator.share) {
-      navigator.share({ title: 'AI Guilty Verdict', text: shareText, url: 'https://aiguiltyverdict.com' });
+      navigator.share({ title: 'AI Guilty Verdict', text: shareText, url: shareUrl });
     } else {
       setOpen(v => !v);
     }
@@ -116,16 +122,19 @@ ${memeEmoji} Job: ${job}
               {shareText.slice(0, 200)}…
             </div>
 
-            <Button
-              variant="outline"
-              onClick={handleCopy}
-              className="w-full border-border text-muted-foreground hover:text-foreground"
-            >
-              {copied
-                ? <><Check className="w-4 h-4 mr-2 text-green-400" /> Скопировано!</>
-                : <><Copy className="w-4 h-4 mr-2" /> Скопировать текст</>
-              }
-            </Button>
+            <div className="space-y-2">
+              <VerdictShareCard verdictData={verdictData} inputData={inputData} />
+              <Button
+                variant="outline"
+                onClick={handleCopy}
+                className="w-full border-border text-muted-foreground hover:text-foreground"
+              >
+                {copied
+                  ? <><Check className="w-4 h-4 mr-2 text-green-400" /> Скопировано!</>
+                  : <><Copy className="w-4 h-4 mr-2" /> Скопировать текст и ссылку</>
+                }
+              </Button>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

@@ -1,0 +1,80 @@
+{
+  "name": "Purchase",
+  "type": "object",
+  "properties": {
+    "session_id": {
+      "type": "string",
+      "description": "Stripe checkout session id"
+    },
+    "product": {
+      "type": "string",
+      "enum": [
+        "verdict",
+        "subscription"
+      ],
+      "enumColors": [
+        "blue",
+        "purple"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "paid",
+        "failed",
+        "canceled"
+      ],
+      "enumColors": [
+        "yellow",
+        "green",
+        "red",
+        "gray"
+      ],
+      "default": "pending"
+    },
+    "amount": {
+      "type": "number",
+      "description": "Expected amount in minor units (900 = 9.00 EUR)"
+    },
+    "currency": {
+      "type": "string"
+    },
+    "verdict_id": {
+      "type": "string"
+    },
+    "subscription_id": {
+      "type": "string"
+    },
+    "customer_email": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "session_id",
+    "product",
+    "status"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, ArrowLeft, Loader2 } from 'lucide-react';
+import { AlertCircle, ArrowRight, ArrowLeft, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -9,6 +9,7 @@ import CourtHeader from '../components/courtroom/CourtHeader';
 import MemeQuestion from '../components/courtroom/MemeQuestion';
 import { memeQuestions } from '../lib/memeQuestions';
 import { base44 } from '@/api/base44Client';
+import { saveVerdictToHistory } from '@/lib/verdictHistory';
 
 const STEPS = ['info', 'tasks', 'memes'];
 
@@ -16,6 +17,7 @@ export default function Quiz() {
   const navigate = useNavigate();
   const [step, setStep] = useState(0);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [error, setError] = useState('');
 
   const [jobTitle, setJobTitle] = useState('');
   const [industry, setIndustry] = useState('');
@@ -38,7 +40,9 @@ export default function Quiz() {
 
   const handleSubmit = async () => {
     setIsGenerating(true);
+    setError('');
 
+    try {
     const inputData = {
       job_title: jobTitle,
       industry,
@@ -127,17 +131,36 @@ Include 4 survival options. Make the analysis accurate to their real activities 
       }
     });
 
-    await base44.entities.Verdict.create({
+    const saved = await base44.entities.Verdict.create({
       ...inputData,
       verdict_text: JSON.stringify(result),
       obsolescence_probability: result.probability?.percent || 0,
     });
 
-    // Store verdict in sessionStorage for the results page
-    sessionStorage.setItem('latestVerdict', JSON.stringify(result));
-    sessionStorage.setItem('latestVerdictInput', JSON.stringify(inputData));
-    setIsGenerating(false);
-    navigate('/Results');
+      // Only the first survival path stays in the browser until the kit is unlocked.
+      const optionCount = result.survival_options?.length || 0;
+      const preview = { ...result, survival_options: (result.survival_options || []).slice(0, 1) };
+
+      sessionStorage.setItem('latestVerdict', JSON.stringify(preview));
+      sessionStorage.setItem('latestVerdictInput', JSON.stringify(inputData));
+      sessionStorage.setItem('latestVerdictId', saved.id);
+      sessionStorage.setItem('latestVerdictOptionCount', String(optionCount));
+
+      saveVerdictToHistory({
+        id: saved.id,
+        job_title: inputData.job_title,
+        industry: inputData.industry,
+        percent: result.probability?.percent || 0,
+        created_date: new Date().toISOString(),
+      });
+
+      navigate('/Results');
+    } catch (err) {
+      console.error('Verdict generation failed:', err);
+      setError('The Robot Judge hit a technical snag. Nothing was saved — please try again.');
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   return (
@@ -320,6 +343,13 @@ Include 4 survival options. Make the analysis accurate to their real activities 
               </motion.div>
             )}
           </AnimatePresence>
+
+          {error && (
+            <div className="mt-8 flex items-start gap-2 rounded-xl border border-destructive/40 bg-destructive/10 p-4 text-sm text-destructive">
+              <AlertCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
+              <span>{error}</span>
+            </div>
+          )}
 
           {/* Navigation */}
           <div className="flex justify-between mt-10 pt-6 border-t border-border/30">

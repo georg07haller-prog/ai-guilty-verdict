@@ -11,6 +11,7 @@ import Quiz from './pages/Quiz';
 import Results from './pages/Results';
 import About from './pages/About';
 import Contact from './pages/Contact';
+import MyVerdicts from './pages/MyVerdicts';
 import BottomTabBar from './components/layout/BottomTabBar';
 import MobileHeader from './components/layout/MobileHeader';
 
@@ -63,6 +64,7 @@ function AnimatedRoutes() {
             <Routes location={location}>
               <Route path="/Results" element={<Results />} />
               <Route path="/Contact" element={<Contact />} />
+              <Route path="/MyVerdicts" element={<MyVerdicts />} />
               <Route path="*" element={<PageNotFound />} />
             </Routes>
           </motion.div>

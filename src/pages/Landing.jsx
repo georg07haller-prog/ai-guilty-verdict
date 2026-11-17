@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { usePullToRefresh } from '@/hooks/usePullToRefresh';
 import PullToRefreshIndicator from '@/components/layout/PullToRefreshIndicator';
 import { Link } from 'react-router-dom';
-import { base44 } from '@/api/base44Client';
+import { startCheckout } from '@/lib/checkout';
 import { motion } from 'framer-motion';
 import {
   Scale, Zap, Shield, Brain, ChevronRight, Lock, Star,
@@ -21,28 +21,13 @@ const fadeUp = (delay = 0) => ({
 export default function Landing() {
   const [checkoutLoading, setCheckoutLoading] = useState(false);
 
-  const handlePremiumClick = useCallback(async (priceId) => {
+  const handlePremiumClick = useCallback(async (product) => {
     setCheckoutLoading(true);
     try {
-      const isIframe = window.self !== window.top;
-      if (isIframe) {
-        alert('Checkout only works from published app. Please open in a new tab.');
-        setCheckoutLoading(false);
-        return;
-      }
-
-      const response = await base44.functions.invoke('createCheckout', { priceId, isIframe: false });
-      if (response.data.error) {
-        alert(response.data.error);
-        setCheckoutLoading(false);
-        return;
-      }
-      if (response.data.sessionUrl) {
-        window.location.href = response.data.sessionUrl;
-      }
+      await startCheckout(product);
     } catch (error) {
       console.error('Checkout error:', error);
-      alert('Payment error. Please try again.');
+      alert(error.message || 'Payment error. Please try again.');
       setCheckoutLoading(false);
     }
   }, []);
@@ -490,14 +475,14 @@ export default function Landing() {
               </ul>
               <div className="space-y-2 mb-8 text-xs text-muted-foreground">
                 <button
-                  onClick={() => handlePremiumClick('price_1TXcljGS7DKAUUuwW5kRuF8d')}
+                  onClick={() => handlePremiumClick('verdict')}
                   disabled={checkoutLoading}
                   className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold py-2 rounded-md transition-all disabled:opacity-50"
                 >
                   {checkoutLoading ? 'Loading...' : '€9 Single Verdict'}
                 </button>
                 <button
-                  onClick={() => handlePremiumClick('price_1TXcljGS7DKAUUuw9Q2B457k')}
+                  onClick={() => handlePremiumClick('subscription')}
                   disabled={checkoutLoading}
                   className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold py-2 rounded-md transition-all disabled:opacity-50"
                 >

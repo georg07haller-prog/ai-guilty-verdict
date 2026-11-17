@@ -2,9 +2,9 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
 import EvidenceBar from './EvidenceBar';
-import SurvivalCard from './SurvivalCard';
+import SurvivalKitSection from './SurvivalKitSection';
 
-export default function VerdictDisplay({ verdictData }) {
+export default function VerdictDisplay({ verdictData, unlocked, lockedCount, onUnlock, unlocking }) {
   if (!verdictData) return null;
 
   const { probability, crime, evidence, verdict_paragraph, survival_options } = verdictData;
@@ -111,16 +111,14 @@ export default function VerdictDisplay({ verdictData }) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.9 }}
-          className="space-y-4"
         >
-          <h3 className="font-semibold text-foreground text-sm uppercase tracking-wider font-mono flex items-center gap-2">
-            🛡️ Appeal Options — Survival Kit
-          </h3>
-          <div className="space-y-3">
-            {survival_options.map((option, i) => (
-              <SurvivalCard key={i} option={option} index={i} />
-            ))}
-          </div>
+          <SurvivalKitSection
+            options={survival_options}
+            lockedCount={lockedCount}
+            unlocked={unlocked}
+            onUnlock={onUnlock}
+            unlocking={unlocking}
+          />
         </motion.div>
       )}
     </div>
